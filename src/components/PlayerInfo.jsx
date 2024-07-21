@@ -5,7 +5,7 @@ import React, { useState } from "react";
 //   symbol: string;
 // }
 
-export default function PlayerInfo({ name, symbol }) {
+export default function PlayerInfo({ name, symbol, isPlayerActive }) {
   const [isEditing, setIsEditing] = useState(false);
   const [playerName, setPlayerName] = useState(name ?? "");
 
@@ -32,12 +32,14 @@ export default function PlayerInfo({ name, symbol }) {
   }
 
   return (
-    <li>
+    <li className={isPlayerActive ? "active" : ""}>
       <span className="player">
         {editableName}
         <span className="player-symbol">{symbol}</span>
       </span>
-      <button onClick={handleClick}>{isEditing ? "Save" : "Edit"}</button>
+      <button title="Save/Edit Button" onClick={handleClick}>
+        {isEditing ? "Save" : "Edit"}
+      </button>
     </li>
   );
 }

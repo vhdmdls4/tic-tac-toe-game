@@ -1,5 +1,9 @@
 # Tic-tac-toe Game
-A simples tic-tac-toe game built with React 18.2.0 and Vite. Useful to practice fundamental but important concepts in React.
+A simples tic-tac-toe game built with React 18.2.0 and Vite. Useful to practice fundamental but important concepts in React:
+- How JSX works
+- How React update DOM
+- React.createElement
+- Good practices working with states
 
 ## Prerequisites 
 - Node.JS (that supports React 18.2.0)

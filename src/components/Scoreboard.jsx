@@ -1,7 +1,7 @@
 import React from "react";
 import PlayerInfo from "./PlayerInfo";
 
-export default function () {
+export default function ({ activePlayer }) {
   return (
     <ol id="players">
       <PlayerInfo name={"Plato"} symbol={"X"} />

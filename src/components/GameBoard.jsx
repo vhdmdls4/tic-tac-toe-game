@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { fieldTypes } from "../types";
 
 const initialGameBoard = [
   [null, null, null],
@@ -6,23 +7,9 @@ const initialGameBoard = [
   [null, null, null],
 ];
 
-/**
- * @typedef {"X" | "O" | null} FieldType
- */
-
-/** @enum {FieldType} */
-const fieldTypes = {
-  X: "X",
-  O: "O",
-  EMPTY: null,
-};
-
-export default function GameBoard() {
+export default function GameBoard({ setTurn, turn }) {
   /** @type {[FieldType[][], React.Dispatch<React.SetStateAction<FieldType[][]>>]} */
   const [gameBoard, setGameBoard] = useState(initialGameBoard);
-
-  /** @type {[FieldType, React.Dispatch<React.SetStateAction<FieldType>>]} */
-  const [turn, setTurn] = useState(fieldTypes.X);
 
   function changeTurn() {
     setTurn((prevTurn) =>
@@ -82,6 +69,7 @@ export default function GameBoard() {
             {row.map((playerSymbol, colIndex) => (
               <li key={colIndex}>
                 <button
+                  className="Field"
                   onClick={() => handleBoardFieldClick(rowIndex, colIndex)}
                 >
                   {playerSymbol}

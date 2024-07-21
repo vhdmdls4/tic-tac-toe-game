@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Scoreboard from "./components/Scoreboard";
 import GameBoard from "./components/GameBoard";
+import { fieldTypes } from "./types";
+import PlayerInfo from "./components/PlayerInfo";
 
 export default function App() {
   // const [formData, setFormData] = useState({
@@ -19,6 +21,9 @@ export default function App() {
   //   console.log(formData);
   // }
 
+  /** @type {[FieldType, React.Dispatch<React.SetStateAction<FieldType>>]} */
+  const [turn, setTurn] = useState(fieldTypes.X);
+
   return (
     <>
       <header>
@@ -28,8 +33,20 @@ export default function App() {
       <main>
         Jogo da velha em React
         <div id="game-container">
-          <Scoreboard />
-          <GameBoard />
+          {/* <Scoreboard activePlayer={turn} /> */}
+          <ol id="players" className="highlight-player">
+            <PlayerInfo
+              name={"Plato"}
+              symbol={fieldTypes.X}
+              isPlayerActive={turn === fieldTypes.X}
+            />
+            <PlayerInfo
+              name={"Jeca"}
+              symbol={fieldTypes.O}
+              isPlayerActive={turn === fieldTypes.O}
+            />
+          </ol>
+          <GameBoard setTurn={setTurn} turn={turn} />
         </div>
       </main>
       <footer></footer>

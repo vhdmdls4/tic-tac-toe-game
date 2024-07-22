@@ -1,8 +1,9 @@
 import { useState } from "react";
 import Scoreboard from "./components/Scoreboard";
 import GameBoard from "./components/GameBoard";
-import { fieldTypes } from "./types";
+import { PlayerTypes } from "./types";
 import PlayerInfo from "./components/PlayerInfo";
+import Log from "./components/Log";
 
 export default function App() {
   // const [formData, setFormData] = useState({
@@ -21,8 +22,34 @@ export default function App() {
   //   console.log(formData);
   // }
 
-  /** @type {[FieldType, React.Dispatch<React.SetStateAction<FieldType>>]} */
-  const [turn, setTurn] = useState(fieldTypes.X);
+  /** @type {[PlayerType, React.Dispatch<React.SetStateAction<PlayerType>>]} */
+  const [turn, setTurn] = useState(PlayerTypes.X);
+  const [gameBoardInfo, setGameBoardInfo] = useState([]);
+
+  function changeTurn() {
+    setTurn((prevTurn) =>
+      prevTurn === PlayerTypes.X ? PlayerTypes.O : PlayerTypes.X
+    );
+  }
+
+  function handleFieldClick(rowIndex, colIndex) {
+    changeTurn();
+    setGameBoardInfo((prevBoard) => {
+      let activeTurn =
+        prevBoard[0]?.player === PlayerTypes.X ? PlayerTypes.O : PlayerTypes.X;
+      const updatedBoard = [
+        {
+          field: {
+            row: rowIndex,
+            col: colIndex,
+          },
+          player: activeTurn,
+        },
+        ...prevBoard,
+      ];
+      return updatedBoard;
+    });
+  }
 
   return (
     <>
@@ -37,16 +64,20 @@ export default function App() {
           <ol id="players" className="highlight-player">
             <PlayerInfo
               name={"Plato"}
-              symbol={fieldTypes.X}
-              isPlayerActive={turn === fieldTypes.X}
+              symbol={PlayerTypes.X}
+              isPlayerActive={turn === PlayerTypes.X}
             />
             <PlayerInfo
               name={"Jeca"}
-              symbol={fieldTypes.O}
-              isPlayerActive={turn === fieldTypes.O}
+              symbol={PlayerTypes.O}
+              isPlayerActive={turn === PlayerTypes.O}
             />
           </ol>
-          <GameBoard setTurn={setTurn} turn={turn} />
+          <GameBoard
+            handleFieldClick={handleFieldClick}
+            gameTurns={gameBoardInfo}
+          />
+          <Log />
         </div>
       </main>
       <footer></footer>

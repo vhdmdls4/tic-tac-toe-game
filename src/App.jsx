@@ -1,9 +1,9 @@
-import { useState } from "react";
-import Scoreboard from "./components/Scoreboard";
 import GameBoard from "./components/GameBoard";
 import { PlayerTypes } from "./types";
 import PlayerInfo from "./components/PlayerInfo";
 import Log from "./components/Log";
+import useGameBoardInfo from "./components/useGameBoardInfo";
+import GameOver from "./components/GameOver";
 
 export default function App() {
   // const [formData, setFormData] = useState({
@@ -22,63 +22,44 @@ export default function App() {
   //   console.log(formData);
   // }
 
-  /** @type {[PlayerType, React.Dispatch<React.SetStateAction<PlayerType>>]} */
-  const [turn, setTurn] = useState(PlayerTypes.X);
-  const [gameBoardInfo, setGameBoardInfo] = useState([]);
-
-  function changeTurn() {
-    setTurn((prevTurn) =>
-      prevTurn === PlayerTypes.X ? PlayerTypes.O : PlayerTypes.X
-    );
-  }
-
-  function handleFieldClick(rowIndex, colIndex) {
-    changeTurn();
-    setGameBoardInfo((prevBoard) => {
-      let activeTurn =
-        prevBoard[0]?.player === PlayerTypes.X ? PlayerTypes.O : PlayerTypes.X;
-      const updatedBoard = [
-        {
-          field: {
-            row: rowIndex,
-            col: colIndex,
-          },
-          player: activeTurn,
-        },
-        ...prevBoard,
-      ];
-      return updatedBoard;
-    });
-  }
+  const {
+    gameBoardInfo,
+    activePlayer,
+    playerO,
+    playerX,
+    handleFieldClick,
+    resetGame,
+    gameBoard,
+    winner,
+    endGame,
+  } = useGameBoardInfo();
 
   return (
     <>
       <header>
         <img src="game-logo.png" alt="Jogo da velha desenhado à mão" />
-        <h1>Jogo da velha</h1>
+        <h1 aria-label="Título da página 'Jogo da velha em React'">
+          Jogo da velha
+        </h1>
       </header>
       <main>
-        Jogo da velha em React
         <div id="game-container">
           {/* <Scoreboard activePlayer={turn} /> */}
           <ol id="players" className="highlight-player">
-            <PlayerInfo
-              name={"Plato"}
-              symbol={PlayerTypes.X}
-              isPlayerActive={turn === PlayerTypes.X}
-            />
+            <PlayerInfo {...playerX} />
             <PlayerInfo
               name={"Jeca"}
               symbol={PlayerTypes.O}
-              isPlayerActive={turn === PlayerTypes.O}
+              isPlayerActive={activePlayer === PlayerTypes.O}
             />
           </ol>
+          {endGame && <GameOver resetGame={resetGame} winner={winner} />}
           <GameBoard
             handleFieldClick={handleFieldClick}
-            gameTurns={gameBoardInfo}
+            gameTurns={gameBoard}
           />
-          <Log />
         </div>
+        <Log turns={gameBoardInfo} players={[playerX, playerO]} />
       </main>
       <footer></footer>
     </>

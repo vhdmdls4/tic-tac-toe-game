@@ -1,22 +1,6 @@
-import React, { useState } from "react";
 import { PlayerTypes } from "../types";
 
-const initialGameBoard = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null],
-];
-
 export default function GameBoard({ handleFieldClick, gameTurns }) {
-  let gameBoard = initialGameBoard;
-
-  for (const turn of gameTurns) {
-    const { field, player } = turn;
-    const { row, col } = field;
-
-    gameBoard[row][col] = player;
-  }
-
   /** @type {[PlayerType[][], React.Dispatch<React.SetStateAction<PlayerType[][]>>]} */
   // const [gameBoard, setGameBoard] = useState(initialGameBoard);
 
@@ -72,17 +56,15 @@ export default function GameBoard({ handleFieldClick, gameTurns }) {
 
   return (
     <ol id="game-board">
-      {gameBoard.map((row, rowIndex) => (
+      {gameTurns.map((row, rowIndex) => (
         <li key={rowIndex}>
           <ol>
             {row.map((playerSymbol, colIndex) => (
               <li key={colIndex}>
                 <button
                   className="Field"
-                  onClick={() =>
-                    playerSymbol === PlayerTypes.EMPTY &&
-                    handleFieldClick(rowIndex, colIndex)
-                  }
+                  onClick={() => handleFieldClick(rowIndex, colIndex)}
+                  disabled={playerSymbol !== PlayerTypes.EMPTY}
                 >
                   {playerSymbol}
                 </button>

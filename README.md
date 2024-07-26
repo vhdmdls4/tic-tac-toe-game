@@ -7,7 +7,7 @@ A simples tic-tac-toe game built with React 18.2.0 and Vite. Useful to practice 
 
 ## Prerequisites 
 - Node.JS (that supports React 18.2.0)
-- Yarn
+- Yarn or just run with Npm
 
 ## Step-by-step
 1. Clone repo:

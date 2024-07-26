@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://vhdmdls4.github.io/tic-tac-toe-game/",
+  "homepage": "https://vhdmdls4.github.io/tic-tac-toe-game",
   "scripts": {
     "dev": "vite",
     "predeploy": "npm run build",

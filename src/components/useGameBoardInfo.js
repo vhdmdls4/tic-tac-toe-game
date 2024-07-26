@@ -6,19 +6,6 @@ import { WINNING_COMBINATIONS } from "./WinningCombinations";
 export default function useGameBoardInfo() {
   const [gameBoardInfo, setGameBoardInfo] = useState([]);
 
-  // let gameBoard = initialGameBoard;
-
-  // if (gameBoardInfo.length > 0) {
-  //   for (const turn of gameBoardInfo) {
-  //     const { field, player } = turn;
-  //     const { row, col } = field;
-
-  //     gameBoard[row][col] = player;
-  //   }
-  // }
-
-  // const activePlayer = getActivePlayer(gameBoardInfo);
-
   // reduce with initialGameBoard as the firstValue
   const updateGameBoard = (gameBoardInfo) => {
     return gameBoardInfo.reduce((gameBoard, turn) => {
@@ -37,19 +24,17 @@ export default function useGameBoardInfo() {
 
   const activePlayer = getActivePlayer(gameBoardInfo);
 
-  const playerX = {
-    name: "Plato",
+  const [playerX, setPlayerX] = useState({
+    name: "Jeca",
     symbol: PlayerTypes.X,
     isPlayerActive: activePlayer === PlayerTypes.X,
-  };
+  });
 
-  const playerO = {
-    name: "Jeca",
+  const [playerO, setPlayerO] = useState({
+    name: "Plato",
     symbol: PlayerTypes.O,
     isPlayerActive: activePlayer === PlayerTypes.O,
-  };
-
-  console.log(gameBoardInfo);
+  });
 
   let winner, endGame;
 
@@ -85,6 +70,14 @@ export default function useGameBoardInfo() {
       ];
       return updatedBoard;
     });
+    setPlayerO((prevValue) => ({
+      ...prevValue,
+      isPlayerActive: !prevValue.isPlayerActive,
+    }));
+    setPlayerX((prevValue) => ({
+      ...prevValue,
+      isPlayerActive: !prevValue.isPlayerActive,
+    }));
   }
 
   function resetGame() {
@@ -97,9 +90,11 @@ export default function useGameBoardInfo() {
     gameBoardInfo,
     activePlayer,
     playerO,
+    setPlayerO,
     winner,
     endGame,
     playerX,
+    setPlayerX,
     gameBoard,
     resetGame,
     handleFieldClick,

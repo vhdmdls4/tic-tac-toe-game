@@ -5,7 +5,12 @@ import React, { useState } from "react";
 //   symbol: string;
 // }
 
-export default function PlayerInfo({ name, symbol, isPlayerActive }) {
+export default function PlayerInfo({
+  name,
+  symbol,
+  isPlayerActive,
+  setPlayer,
+}) {
   const [isEditing, setIsEditing] = useState(false);
 
   function handleClick() {
@@ -14,7 +19,11 @@ export default function PlayerInfo({ name, symbol, isPlayerActive }) {
   }
 
   function handleInputChange(event) {
-    name = event?.target?.value;
+    const { value } = event.target;
+    setPlayer((prevValue) => ({
+      ...prevValue,
+      name: value,
+    }));
   }
 
   let editableName = (

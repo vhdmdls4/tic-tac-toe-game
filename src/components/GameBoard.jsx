@@ -1,76 +1,70 @@
-import React, { useState } from "react";
-import { fieldTypes } from "../types";
+import { PlayerTypes } from "../types";
 
-const initialGameBoard = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null],
-];
+export default function GameBoard({ handleFieldClick, gameTurns }) {
+  /** @type {[PlayerType[][], React.Dispatch<React.SetStateAction<PlayerType[][]>>]} */
+  // const [gameBoard, setGameBoard] = useState(initialGameBoard);
 
-export default function GameBoard({ setTurn, turn }) {
-  /** @type {[FieldType[][], React.Dispatch<React.SetStateAction<FieldType[][]>>]} */
-  const [gameBoard, setGameBoard] = useState(initialGameBoard);
+  // function changeTurn() {
+  //   setTurn((prevTurn) =>
+  //     prevTurn === PlayerTypes.X ? PlayerTypes.O : PlayerTypes.X
+  //   );
+  // }
 
-  function changeTurn() {
-    setTurn((prevTurn) =>
-      prevTurn === fieldTypes.X ? fieldTypes.O : fieldTypes.X
-    );
-  }
+  // /**
+  //  * for every function that interacts with the game board, we use row and col index
+  //  * @param {number} rowIndex
+  //  * @param {number} colIndex
+  //  */
+  // function handleSelectSquare(rowIndex, colIndex) {
+  //   setGameBoard((prevBoard) => {
+  //     const updatedBoard = prevBoard.map((row) => [...row]);
+  //     const localField = updatedBoard[rowIndex][colIndex];
 
-  /**
-   * for every function that interacts with the game board, we use row and col index
-   * @param {number} rowIndex
-   * @param {number} colIndex
-   */
-  function handleSelectSquare(rowIndex, colIndex) {
-    setGameBoard((prevBoard) => {
-      const updatedBoard = prevBoard.map((row) => [...row]);
-      const localField = updatedBoard[rowIndex][colIndex];
+  //     updatedBoard[rowIndex][colIndex] =
+  //       localField === PlayerTypes.EMPTY ? PlayerTypes.X : PlayerTypes.EMPTY;
 
-      updatedBoard[rowIndex][colIndex] =
-        localField === fieldTypes.EMPTY ? fieldTypes.X : fieldTypes.EMPTY;
+  //     return updatedBoard;
+  //   });
 
-      return updatedBoard;
-    });
+  //   changeTurn();
+  // }
 
-    changeTurn();
-  }
+  // function handleSelectCircle(rowIndex, colIndex) {
+  //   setGameBoard((prevBoard) => {
+  //     const updatedBoard = prevBoard.map((row) => [...row]);
+  //     const localField = updatedBoard[rowIndex][colIndex];
 
-  function handleSelectCircle(rowIndex, colIndex) {
-    setGameBoard((prevBoard) => {
-      const updatedBoard = prevBoard.map((row) => [...row]);
-      const localField = updatedBoard[rowIndex][colIndex];
+  //     updatedBoard[rowIndex][colIndex] =
+  //       localField === PlayerTypes.EMPTY ? PlayerTypes.O : PlayerTypes.EMPTY;
 
-      updatedBoard[rowIndex][colIndex] =
-        localField === fieldTypes.EMPTY ? fieldTypes.O : fieldTypes.EMPTY;
+  //     return updatedBoard;
+  //   });
 
-      return updatedBoard;
-    });
+  //   changeTurn();
+  // }
 
-    changeTurn();
-  }
-
-  function handleBoardFieldClick(rowIndex, colIndex) {
-    if (gameBoard[rowIndex][colIndex] !== fieldTypes.EMPTY) {
-      return;
-    }
-    if (turn === fieldTypes.X) {
-      handleSelectSquare(rowIndex, colIndex);
-    } else {
-      handleSelectCircle(rowIndex, colIndex);
-    }
-  }
+  // function handleBoardFieldClick(rowIndex, colIndex) {
+  //   if (gameBoard[rowIndex][colIndex] !== PlayerTypes.EMPTY) {
+  //     return;
+  //   }
+  //   if (turn === PlayerTypes.X) {
+  //     handleSelectSquare(rowIndex, colIndex);
+  //   } else {
+  //     handleSelectCircle(rowIndex, colIndex);
+  //   }
+  // }
 
   return (
     <ol id="game-board">
-      {gameBoard.map((row, rowIndex) => (
+      {gameTurns.map((row, rowIndex) => (
         <li key={rowIndex}>
           <ol>
             {row.map((playerSymbol, colIndex) => (
               <li key={colIndex}>
                 <button
                   className="Field"
-                  onClick={() => handleBoardFieldClick(rowIndex, colIndex)}
+                  onClick={() => handleFieldClick(rowIndex, colIndex)}
+                  disabled={playerSymbol !== PlayerTypes.EMPTY}
                 >
                   {playerSymbol}
                 </button>

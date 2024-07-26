@@ -1,8 +1,9 @@
-import { useState } from "react";
-import Scoreboard from "./components/Scoreboard";
 import GameBoard from "./components/GameBoard";
-import { fieldTypes } from "./types";
+import { PlayerTypes } from "./types";
 import PlayerInfo from "./components/PlayerInfo";
+import Log from "./components/Log";
+import useGameBoardInfo from "./components/useGameBoardInfo";
+import GameOver from "./components/GameOver";
 
 export default function App() {
   // const [formData, setFormData] = useState({
@@ -21,33 +22,44 @@ export default function App() {
   //   console.log(formData);
   // }
 
-  /** @type {[FieldType, React.Dispatch<React.SetStateAction<FieldType>>]} */
-  const [turn, setTurn] = useState(fieldTypes.X);
+  const {
+    gameBoardInfo,
+    activePlayer,
+    playerO,
+    playerX,
+    handleFieldClick,
+    resetGame,
+    gameBoard,
+    winner,
+    endGame,
+  } = useGameBoardInfo();
 
   return (
     <>
       <header>
         <img src="game-logo.png" alt="Jogo da velha desenhado à mão" />
-        <h1>Jogo da velha</h1>
+        <h1 aria-label="Título da página 'Jogo da velha em React'">
+          Jogo da velha
+        </h1>
       </header>
       <main>
-        Jogo da velha em React
         <div id="game-container">
           {/* <Scoreboard activePlayer={turn} /> */}
           <ol id="players" className="highlight-player">
-            <PlayerInfo
-              name={"Plato"}
-              symbol={fieldTypes.X}
-              isPlayerActive={turn === fieldTypes.X}
-            />
+            <PlayerInfo {...playerX} />
             <PlayerInfo
               name={"Jeca"}
-              symbol={fieldTypes.O}
-              isPlayerActive={turn === fieldTypes.O}
+              symbol={PlayerTypes.O}
+              isPlayerActive={activePlayer === PlayerTypes.O}
             />
           </ol>
-          <GameBoard setTurn={setTurn} turn={turn} />
+          {endGame && <GameOver resetGame={resetGame} winner={winner} />}
+          <GameBoard
+            handleFieldClick={handleFieldClick}
+            gameTurns={gameBoard}
+          />
         </div>
+        <Log turns={gameBoardInfo} players={[playerX, playerO]} />
       </main>
       <footer></footer>
     </>

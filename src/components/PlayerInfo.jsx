@@ -5,27 +5,43 @@ import React, { useState } from "react";
 //   symbol: string;
 // }
 
-export default function PlayerInfo({ name, symbol, isPlayerActive }) {
+export default function PlayerInfo({
+  name,
+  symbol,
+  isPlayerActive,
+  setPlayer,
+}) {
   const [isEditing, setIsEditing] = useState(false);
+  const [playerName, setPlayerName] = useState(name);
 
   function handleClick() {
     //updating state based on last state should be called with a arrow fcuntion
     setIsEditing((prevValue) => !prevValue);
+    setPlayer((prevValue) => ({
+      ...prevValue,
+      name: playerName,
+    }));
   }
 
   function handleInputChange(event) {
-    name = event?.target?.value;
+    const { value } = event.target;
+    setPlayerName(value);
   }
 
   let editableName = (
     <span className="player-name">
-      {name} ({symbol})
+      {playerName} ({symbol})
     </span>
   );
 
   if (isEditing) {
     editableName = (
-      <input type="text" required value={name} onChange={handleInputChange} />
+      <input
+        type="text"
+        required
+        value={playerName}
+        onChange={handleInputChange}
+      />
     );
   }
 

@@ -27,6 +27,8 @@ export default function App() {
     activePlayer,
     playerO,
     playerX,
+    setPlayerO,
+    setPlayerX,
     handleFieldClick,
     resetGame,
     gameBoard,
@@ -46,12 +48,8 @@ export default function App() {
         <div id="game-container">
           {/* <Scoreboard activePlayer={turn} /> */}
           <ol id="players" className="highlight-player">
-            <PlayerInfo {...playerX} />
-            <PlayerInfo
-              name={"Jeca"}
-              symbol={PlayerTypes.O}
-              isPlayerActive={activePlayer === PlayerTypes.O}
-            />
+            <PlayerInfo {...playerX} setPlayer={setPlayerX} />
+            <PlayerInfo {...playerO} setPlayer={setPlayerO} />
           </ol>
           {endGame && <GameOver resetGame={resetGame} winner={winner} />}
           <GameBoard

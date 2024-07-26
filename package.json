@@ -6,7 +6,8 @@
   "homepage": "https://vhdmdls4.github.io/tic-tac-toe-game/",
   "scripts": {
     "dev": "vite",
-    "publish": "vite build && gh-pages -d dist",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d dist",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"

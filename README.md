@@ -4,6 +4,7 @@ A simples tic-tac-toe game built with React 18.2.0 and Vite. Useful to practice 
 - How React update DOM
 - React.createElement
 - Good practices working with states
+- Immutability
 
 ## Prerequisites 
 - Node.JS (that supports React 18.2.0)
